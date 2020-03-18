@@ -7,6 +7,17 @@ import SwapiService from "../../services/SwapiService";
 import ErrorBoundry from "../ErrorBoundry/ErrorBoundry";
 import Row from "../Row/Row";
 import ItemList from "../ItemList/ItemList";
+import {
+  PersonList,
+  PlanetList,
+  StarshipList
+} from "../SwComponents/ItemLists";
+
+import {
+  PersonDetails,
+  PlanetDetails,
+  StarshipDetails
+} from "../SwComponents/Details";
 
 export default class App extends Component {
   swapiService = new SwapiService();
@@ -24,43 +35,27 @@ export default class App extends Component {
 
   render() {
     const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
-    const {
-      getPerson,
-      getStarship,
-      getPersonImage,
-      getStarshipImage,
-      getAllPeople,
-      getAllPlanets
-    } = this.swapiService;
 
-    const personDetails = (
-      <ItemDetails itemId={11} getData={getPerson} getImageUrl={getPersonImage}>
-        <Record field="gender" label="Gender" />
-        <Record field="eyeColor" label="Eye Color" />
-      </ItemDetails>
-    );
-
-    const starshipDetails = (
-      <ItemDetails
-        itemId={5}
-        getData={getStarship}
-        getImageUrl={getStarshipImage}
-      >
-        <Record field="model" label="Model" />
-        <Record field="length" label="Length" />
-        <Record field="costInCredits" label="Cost" />
-      </ItemDetails>
-    );
     return (
       <ErrorBoundry>
         <div className="stardb-app">
           <Header />
-          <ItemList getData={getAllPeople} onItemSelected={() => {}}>
+          <PersonDetails itemId={11} />
+
+          <PlanetDetails itemId={5} />
+
+          <StarshipDetails itemId={9} />
+
+          <PersonList onItemSelected={() => {}}>
             {({ name }) => <span>{name}</span>}
-          </ItemList>
-          <ItemList getData={getAllPlanets} onItemSelected={() => {}}>
+          </PersonList>
+          <PlanetList onItemSelected={() => {}}>
             {({ name }) => <span>{name}</span>}
-          </ItemList>
+          </PlanetList>
+
+          <StarshipList onItemSelected={() => {}}>
+            {({ name }) => <span>{name}</span>}
+          </StarshipList>
           {/* 
           <Row left={peopleList} right={starshipDetails} /> */}
         </div>

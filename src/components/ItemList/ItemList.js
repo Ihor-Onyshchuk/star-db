@@ -1,7 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import "./ItemList.scss";
-import SwapiService from "../../services/SwapiService";
-import withData from "../HocHelpers/WithData";
 
 const ItemList = props => {
   const { data, onItemSelected, children: renderLabel } = props;
@@ -23,6 +21,4 @@ const ItemList = props => {
   return <ul className="item-list list-group">{items}</ul>;
 };
 
-const { getAllPeople } = new SwapiService();
-
-export default withData(ItemList, getAllPeople);
+export default ItemList;
