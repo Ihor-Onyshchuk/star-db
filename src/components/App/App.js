@@ -2,63 +2,43 @@ import React, { Component } from "react";
 import "./App.scss";
 import Header from "../Header/Header";
 import RandomPlanet from "../RandomPlanet/RandomPlanet";
-import ItemDetails, { Record } from "../ItemDetails/ItemDetails";
 import SwapiService from "../../services/SwapiService";
+import DummySwapiService from "../../services/DummySwapiService";
 import ErrorBoundry from "../ErrorBoundry/ErrorBoundry";
-import Row from "../Row/Row";
-import ItemList from "../ItemList/ItemList";
-import {
-  PersonList,
-  PlanetList,
-  StarshipList
-} from "../SwComponents/ItemLists";
+import { SwapiServiceProvider } from "../SwapiServiceContext/SwapiServiceContext";
 
-import {
-  PersonDetails,
-  PlanetDetails,
-  StarshipDetails
-} from "../SwComponents/Details";
+import PeoplePage from "../Pages/PeoplePage";
+import PlanetsPage from "../Pages/PlanetsPage";
+import StarshipsPage from "../Pages/StarshipsPage";
 
 export default class App extends Component {
-  swapiService = new SwapiService();
   state = {
-    showRandomPlanet: true
+    swapiService: new SwapiService()
   };
 
-  toggleRandomPlanet = () => {
-    this.setState(state => {
+  onServiceChange = () => {
+    this.setState(({ swapiService }) => {
+      const service =
+        swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
+
       return {
-        showRandomPlanet: !state.showRandomPlanet
+        swapiService: new service()
       };
     });
   };
 
   render() {
-    const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
-
     return (
       <ErrorBoundry>
-        <div className="stardb-app">
-          <Header />
-          <PersonDetails itemId={11} />
-
-          <PlanetDetails itemId={5} />
-
-          <StarshipDetails itemId={9} />
-
-          <PersonList onItemSelected={() => {}}>
-            {({ name }) => <span>{name}</span>}
-          </PersonList>
-          <PlanetList onItemSelected={() => {}}>
-            {({ name }) => <span>{name}</span>}
-          </PlanetList>
-
-          <StarshipList onItemSelected={() => {}}>
-            {({ name }) => <span>{name}</span>}
-          </StarshipList>
-          {/* 
-          <Row left={peopleList} right={starshipDetails} /> */}
-        </div>
+        <SwapiServiceProvider value={this.state.swapiService}>
+          <div className="stardb-app">
+            <Header onServiceChange={this.onServiceChange} />
+            <RandomPlanet />
+            <PeoplePage />
+            <PlanetsPage />
+            <StarshipsPage />
+          </div>
+        </SwapiServiceProvider>
       </ErrorBoundry>
     );
   }

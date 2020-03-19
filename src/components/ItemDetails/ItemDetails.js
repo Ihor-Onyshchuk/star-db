@@ -29,7 +29,11 @@ export default class ItemDetails extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.itemId !== prevProps.itemId) {
+    if (
+      this.props.itemId !== prevProps.itemId ||
+      this.props.getData !== prevProps.getData ||
+      this.props.getImageUrl !== prevProps.getImageUrl
+    ) {
       this.updateItem();
     }
   }
@@ -58,10 +62,13 @@ export default class ItemDetails extends Component {
     const records = React.Children.map(this.props.children, child => {
       return React.cloneElement(child, { item });
     });
+
     const content = !loading ? (
       <ItemView item={item} image={image} records={records} />
     ) : null;
+
     const spiner = loading ? <Spiner /> : null;
+
     return (
       <div className="item-details card">
         {spiner}
