@@ -57,7 +57,7 @@ export default class ItemDetails extends Component {
   render() {
     const { item, loading, image } = this.state;
     if (!item) {
-      return <span>Select a person from the list</span>;
+      return <span>Select a item from the list</span>;
     }
     const records = React.Children.map(this.props.children, child => {
       return React.cloneElement(child, { item });
