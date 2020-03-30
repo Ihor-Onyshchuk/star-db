@@ -1,4 +1,4 @@
-
+Star-db app works on React.js with using Star Wars API  or "swapi" for fetch the data
 
 You can look at demo [here](https://ihor-onyshchuk.github.io/star-db/)
 ---
